@@ -4,12 +4,21 @@
 #'
 #'
 #' @example
-#' baixardbc(202302,202302)
+#' baixardbc(202302,202302,SP)
 
+
+#' @export
+baixardbc = function(inicio, final,tipo){
+  periodo = anomes(inicio,final)
+  sapply(1:length(periodo),function(i)download.dbc2FTP("CE",periodo[i],tipo))
+}
 
 download.dbc2FTP<-function(UF,ANOMES,TIPO){
   arquivo <-paste0(TIPO,UF,ANOMES,".dbc")
+
   if(TIPO=="PA") url<-paste0("ftp://ftp.datasus.gov.br/dissemin/publicos/SIASUS/200801_/Dados/",arquivo)
+  else if(TIPO=="ER" | TIPO=="RD" | TIPO=="RJ" | TIPO=="SP") url<-paste0("ftp://ftp.datasus.gov.br/dissemin/publicos/SIHSUS/200801_/Dados/",arquivo)
+
   download.file(url,destfile = arquivo,mode="wb")
 }
 
@@ -20,10 +29,3 @@ anomes = function(inicio, final){
   resultado = substr(resultado,3,6)
   return(resultado)
 }
-
-#' @export
-baixardbc = function(inicio, final){
-  periodo = anomes(inicio,final)
-  sapply(1:length(periodo),function(i)download.dbc2FTP("CE",periodo[i],"PA"))
-}
-#

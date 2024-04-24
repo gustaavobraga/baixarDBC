@@ -8,6 +8,6 @@
 
 #' @import read.dbc
 #' @export
-lerddbc <- function(caminho){
+lerdbc <- function(caminho){
   read.dbc(caminho)
 }
